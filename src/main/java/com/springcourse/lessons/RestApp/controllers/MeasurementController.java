@@ -1,8 +1,12 @@
 package com.springcourse.lessons.RestApp.controllers;
 
 import com.springcourse.lessons.RestApp.dto.MeasurementDTO;
+import com.springcourse.lessons.RestApp.dto.MeasurementsResponse;
 import com.springcourse.lessons.RestApp.models.Measurement;
 import com.springcourse.lessons.RestApp.services.MeasurementService;
+import com.springcourse.lessons.RestApp.util.MeasurementErrorResponse;
+import com.springcourse.lessons.RestApp.util.MeasurementException;
+import com.springcourse.lessons.RestApp.util.MeasurementValidator;
 import com.springcourse.lessons.RestApp.util.SensorValidator;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.springcourse.lessons.RestApp.util.ErrorsUtil.returnErrorsToClient;
 
 @RestController
 @RequestMapping("/measurements")
@@ -33,19 +39,38 @@ public class MeasurementController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<HttpStatus> addMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO,
+    public ResponseEntity<HttpStatus> add(@RequestBody @Valid MeasurementDTO measurementDTO,
                                                      BindingResult bindingResult) {
         Measurement measurementToAdd = convertToMeasurement(measurementDTO);
-        sensorValidator.validate(measurementToAdd, bindingResult);
 
-        measurementService.add(measurementToAdd);
+        measurementValidator.validate(measurementToAdd, bindingResult);
+        if(bindingResult.hasErrors()) {
+            returnErrorsToClient(bindingResult);
+        }
+
+        measurementService.addMeasurement(measurementToAdd);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @ExceptionHandler
+    private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementException e) {
+        MeasurementErrorResponse response = new MeasurementErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @GetMapping
-    public List<MeasurementDTO> getMeasurements() {
-        return measurementService.findAllMeasurements().stream().map(this::convertToMeasurementDTO)
-                .collect(Collectors.toList());
+    public MeasurementsResponse getMeasurements() {
+        return new MeasurementsResponse(measurementService.findAll().stream().map(this::convertToMeasurementDTO)
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/rainyDaysCount")
+    public Long getRainyDaysCount() {
+        return measurementService.findAll().stream().filter(Measurement::isRaining).count();
     }
 
     private Measurement convertToMeasurement(MeasurementDTO measurementDTO) {
@@ -56,3 +81,16 @@ public class MeasurementController {
         return modelMapper.map(measurement, MeasurementDTO.class);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

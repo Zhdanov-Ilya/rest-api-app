@@ -1,6 +1,5 @@
 package com.springcourse.lessons.RestApp.dto;
 
-import com.springcourse.lessons.RestApp.models.Sensor;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,35 +9,35 @@ public class MeasurementDTO {
     @NotEmpty
     @Min(-100)
     @Max(100)
-    private double value;
+    private Double value;
 
     @NotEmpty
-    private boolean raining;
+    private Boolean raining;
 
     @NotEmpty
-    private Sensor sensor;
+    private SensorDTO sensor;
 
-    public double getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
-    public boolean isRaining() {
+    public Boolean isRaining() {
         return raining;
     }
 
-    public void setRaining(boolean raining) {
+    public void setRaining(Boolean raining) {
         this.raining = raining;
     }
 
-    public Sensor getSensor() {
+    public SensorDTO getSensor() {
         return sensor;
     }
 
-    public void setSensor(Sensor sensor) {
+    public void setSensor(SensorDTO sensor) {
         this.sensor = sensor;
     }
 }
