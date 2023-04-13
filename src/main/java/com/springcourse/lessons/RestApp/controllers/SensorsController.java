@@ -1,8 +1,11 @@
 package com.springcourse.lessons.RestApp.controllers;
 
 import com.springcourse.lessons.RestApp.dto.SensorDTO;
+import com.springcourse.lessons.RestApp.models.Measurement;
 import com.springcourse.lessons.RestApp.models.Sensor;
 import com.springcourse.lessons.RestApp.services.SensorService;
+import com.springcourse.lessons.RestApp.util.MeasurementErrorResponse;
+import com.springcourse.lessons.RestApp.util.MeasurementException;
 import com.springcourse.lessons.RestApp.util.SensorValidator;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -45,6 +48,16 @@ public class SensorsController {
 
         sensorService.register(sensorToAdd);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementException e) {
+        MeasurementErrorResponse response = new MeasurementErrorResponse(
+                e.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping

@@ -21,13 +21,15 @@ public class MeasurementController {
 
     private final MeasurementService measurementService;
     private final ModelMapper modelMapper;
-    private final SensorValidator sensorValidator;
+    private final MeasurementValidator measurementValidator;
 
     @Autowired
-    public MeasurementController(MeasurementService measurementService, ModelMapper modelMapper, SensorValidator sensorValidator) {
+    public MeasurementController(MeasurementService measurementService,
+                                 ModelMapper modelMapper,
+                                 MeasurementValidator measurementValidator) {
         this.measurementService = measurementService;
         this.modelMapper = modelMapper;
-        this.sensorValidator = sensorValidator;
+        this.measurementValidator = measurementValidator;
     }
 
     @PostMapping("/add")

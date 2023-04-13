@@ -15,17 +15,17 @@ public class Measurement {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "value")
     @NotEmpty
     @Min(-100)
     @Max(100)
-    private double value;
+    private Double value;
 
     @Column(name = "raining")
     @NotEmpty
-    private boolean raining;
+    private Boolean raining;
 
     @Column(name = "measurement_date_time")
     @NotEmpty
@@ -35,17 +35,6 @@ public class Measurement {
     @ManyToOne
     @JoinColumn(name = "Sensor", referencedColumnName = "name")
     private Sensor sensor;
-
-    public Measurement() {
-
-    }
-
-    @Autowired
-    public Measurement(double value, boolean raining, LocalDateTime measurementDateTime) {
-        this.value = value;
-        this.raining = raining;
-        this.measurementDateTime = measurementDateTime;
-    }
 
     public int getId() {
         return id;
