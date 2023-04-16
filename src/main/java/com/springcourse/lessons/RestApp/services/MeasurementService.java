@@ -32,7 +32,7 @@ public class MeasurementService {
         measurementRepository.save(measurement);
     }
 
-    private void enrichMeasurement(Measurement measurement) {
+    private void enrichMeasurement(Measurement measurement) { //Метод принимает экземпляр класса Measurement, кладёт в поле Sensor имя сенсора, который уже зарегестрирован в БД
         measurement.setSensor(sensorService.findByName(measurement.getSensor().getName()).get());
 
         measurement.setMeasurementDateTime(LocalDateTime.now());

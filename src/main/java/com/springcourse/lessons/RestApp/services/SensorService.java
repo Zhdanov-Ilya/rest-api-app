@@ -30,7 +30,7 @@ public class SensorService {
     }
 
     @Transactional
-    public void register(Sensor sensor) {
+    public void register(Sensor sensor) { //Метод принимает экземпляр класса Sensor, кладёт в объект поле registeredAt
         enrichSensor(sensor);
         sensorsRepository.save(sensor);
     }

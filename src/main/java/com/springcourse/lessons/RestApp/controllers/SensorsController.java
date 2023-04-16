@@ -41,7 +41,6 @@ public class SensorsController {
         Sensor sensorToAdd = convertToSensor(sensorDTO);
 
         sensorValidator.validate(sensorToAdd, bindingResult);
-
         if(bindingResult.hasErrors()){
             returnErrorsToClient(bindingResult);
         }
