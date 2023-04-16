@@ -7,7 +7,6 @@ import com.springcourse.lessons.RestApp.services.MeasurementService;
 import com.springcourse.lessons.RestApp.util.MeasurementErrorResponse;
 import com.springcourse.lessons.RestApp.util.MeasurementException;
 import com.springcourse.lessons.RestApp.util.MeasurementValidator;
-import com.springcourse.lessons.RestApp.util.SensorValidator;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +15,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.springcourse.lessons.RestApp.util.ErrorsUtil.returnErrorsToClient;
 
 @RestController
 @RequestMapping("/measurements")
-public class MeasurementController {
+public class MeasurementsController {
 
     private final MeasurementService measurementService;
     private final ModelMapper modelMapper;
     private final MeasurementValidator measurementValidator;
 
     @Autowired
-    public MeasurementController(MeasurementService measurementService,
-                                 ModelMapper modelMapper,
-                                 MeasurementValidator measurementValidator) {
+    public MeasurementsController(MeasurementService measurementService,
+                                  ModelMapper modelMapper,
+                                  MeasurementValidator measurementValidator) {
         this.measurementService = measurementService;
         this.modelMapper = modelMapper;
         this.measurementValidator = measurementValidator;

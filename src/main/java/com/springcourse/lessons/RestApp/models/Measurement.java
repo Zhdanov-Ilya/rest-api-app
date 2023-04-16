@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -18,20 +19,20 @@ public class Measurement {
     private Integer id;
 
     @Column(name = "value")
-    @NotEmpty
+    @NotNull
     @Min(-100)
     @Max(100)
     private Double value;
 
     @Column(name = "raining")
-    @NotEmpty
+    @NotNull
     private Boolean raining;
 
     @Column(name = "measurement_date_time")
-    @NotEmpty
+    @NotNull
     private LocalDateTime measurementDateTime;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "Sensor", referencedColumnName = "name")
     private Sensor sensor;
